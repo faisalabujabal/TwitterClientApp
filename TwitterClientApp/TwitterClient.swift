@@ -107,4 +107,30 @@ class TwitterClient: BDBOAuth1SessionManager {
         }
     }
     
+    func tweet(tweetID: Int?, tweetText: String, success: () -> ()){
+        let tweetTextURLEncoded = tweetText.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
+        var url = "1.1/statuses/update.json?status=\(tweetTextURLEncoded!)"
+        if(tweetID != nil){
+            url += "&in_reply_to_status_id=\(tweetID)"
+        }
+        POST(url, parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            print("favorited")
+            success()
+            }) { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+                print(error.localizedDescription)
+        }
+    }
+    
+    func getProfileBanner(screenName: String) -> NSDictionary? {
+        var profileBanner: NSDictionary?
+        GET("1.1/users/profile_banner.json?screen_name=\(screenName)", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+                let userDictionary = response as! NSDictionary
+                profileBanner = userDictionary
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+                print(error.localizedDescription)
+                profileBanner = nil
+        })
+        return profileBanner
+    }
+    
 }

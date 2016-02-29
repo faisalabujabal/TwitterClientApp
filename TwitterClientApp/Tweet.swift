@@ -18,6 +18,7 @@ class Tweet: NSObject {
     var userScreenName: NSString?
     var userName: NSString?
     var tweetID: Int = 0
+    var author: User?
     
     var printed: Bool = false
     
@@ -33,12 +34,13 @@ class Tweet: NSObject {
         }
         userScreenName = dictionary["user"]!["screen_name"] as? String
         userName = dictionary["user"]!["name"] as? String
+        let authorDictionary = dictionary["user"] as? NSDictionary
+        author = User(dictionary: authorDictionary!)
         let timestampString = dictionary["created_at"] as? String
         if let timestampString = timestampString {
             let formatter = NSDateFormatter()
             formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
             timestamp = formatter.dateFromString(timestampString)
-            print(timestamp)
         }
         
     }

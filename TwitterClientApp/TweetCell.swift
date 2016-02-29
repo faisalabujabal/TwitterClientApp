@@ -11,6 +11,7 @@ import UIKit
 class TweetCell: UITableViewCell {
     
     
+    @IBOutlet weak var profileImageScreenName: UIButton!
     @IBOutlet weak var tweetTextLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var tweetTimestampLabel: UILabel!
@@ -26,7 +27,6 @@ class TweetCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         tweetTextLabel.preferredMaxLayoutWidth = tweetTextLabel.frame.size.width
-        
     }
     
     override func layoutSubviews() {
@@ -36,7 +36,7 @@ class TweetCell: UITableViewCell {
     
     
     @IBAction func retweet(sender: UIButton) {
-        print(self.tweetID)
+//        print(self.tweetID)
         TwitterClient.sharedInstance.retweet(self.tweetID) { () -> () in
             self.retweetCounter++
             self.retweetButton.setTitle("\(self.retweetCounter) Retweets", forState: .Normal)
@@ -50,6 +50,5 @@ class TweetCell: UITableViewCell {
             self.favoriteButton.setTitle("\(self.favoriteCounter) Favorites", forState: .Normal)
         }
     }
-    
     
 }

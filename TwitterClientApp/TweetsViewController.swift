@@ -64,6 +64,25 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if(segue.identifier == "TweetDetails"){
+            let cell = sender as! TweetCell
+            let indexPath = tweetsTableView.indexPathForCell(cell)
+            let tweet = tweets[(indexPath?.row)!]
+            
+            let detailViewController = segue.destinationViewController as! TweetDetailViewController
+            detailViewController.tweet = tweet
+            detailViewController.retweetCounter = cell.retweetCounter
+            detailViewController.favoriteCounter = cell.favoriteCounter
+        } else {
+            let replyViewController = segue.destinationViewController as! NewTweetViewController
+            replyViewController.replyTweetID = nil
+            replyViewController.replyUsername = nil
+        }
+        tweetsTableView.reloadData()
+    }
+
+    
     
     
 }
